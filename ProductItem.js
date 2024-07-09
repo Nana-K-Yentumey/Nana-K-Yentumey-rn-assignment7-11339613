@@ -1,9 +1,12 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useCart } from './CartContext';
 
-function ProductItem({ product, onPress }) {
+const { width } = Dimensions.get('window');
+const itemWidth = (width - 30) / 2; // 30 is the total horizontal padding
+
+function ProductItem({ product, onPress, style }) {
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
@@ -11,56 +14,66 @@ function ProductItem({ product, onPress }) {
   };
 
   return (
-    <TouchableOpacity onPress={onPress}>
-      <View style={styles.container}>
-        <Image source={{ uri: product.image }} style={styles.image} />
-        <View style={styles.infoContainer}>
-          <Text style={styles.name}>{product.name}</Text>
-          <Text style={styles.description}>{product.shortDescription}</Text>
-          <Text style={styles.price}>${product.price.toFixed(2)}</Text>
-        </View>
-        <TouchableOpacity style={styles.addToCartButton} onPress={handleAddToCart}>
-          <Ionicons name="cart-outline" size={24} color="black" />
-        </TouchableOpacity>
+    <TouchableOpacity onPress={onPress} style={[styles.container, style]}>
+      <Image source={{ uri: product.image }} style={styles.image} />
+      <View style={styles.infoContainer}>
+        <Text style={styles.name} numberOfLines={1} ellipsizeMode="tail">{product.title}</Text>
+        <Text style={styles.description} numberOfLines={2} ellipsizeMode="tail">{product.category}</Text>
+        <Text style={styles.price}>${product.price.toFixed(2)}</Text>
       </View>
+      <TouchableOpacity style={styles.addToCartButton} onPress={handleAddToCart}>
+        <Ionicons name="bag-add-outline" size={24} color="white" />
+      </TouchableOpacity>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flexDirection: 'row',
-      padding: 10,
-      borderBottomWidth: 1,
-      borderBottomColor: '#ccc',
-    },
-    image: {
-      width: 80,
-      height: 80,
-      marginRight: 10,
-    },
-    infoContainer: {
-      flex: 1,
-    },
-    name: {
-      fontSize: 16,
-      fontWeight: 'bold',
-    },
-    description: {
-      fontSize: 14,
-      color: '#666',
-    },
-    price: {
-      fontSize: 14,
-      fontWeight: 'bold',
-      marginTop: 5,
-    },
-    addToCartButton: {
-      position: 'absolute',
-      top: 10,
-      right: 10,
-    },
-  });
-  
+  container: {
+    width: itemWidth,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    overflow: 'hidden',
+    marginBottom: 10,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
+  image: {
+    width: '100%',
+    height: 120,
+    resizeMode: 'cover',
+  },
+  infoContainer: {
+    padding: 10,
+    flex: 1,
+  },
+  name: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    color: '#333', // Ensure text color contrasts with background
+  },
+  description: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 5,
+  },
+  price: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#2a9d8f',
+  },
+  addToCartButton: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    backgroundColor: '#2a9d8f',
+    borderRadius: 20,
+    padding: 5,
+  },
+});
 
 export default ProductItem;

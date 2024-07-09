@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, StyleSheet, ActivityIndicator, Text } from 'react-native';
+import { View, FlatList, StyleSheet, ActivityIndicator, Text, Dimensions } from 'react-native';
 import ProductItem from './ProductItem';
 import { fetchProducts } from './productApi';
+
+const { width } = Dimensions.get('window');
+const numColumns = 2;
+const itemWidth = (width - 30) / numColumns; // 30 is the total horizontal padding
 
 function HomeScreen({ navigation }) {
   const [products, setProducts] = useState([]);
@@ -29,6 +33,16 @@ function HomeScreen({ navigation }) {
     navigation.navigate('ProductDetails', { product });
   };
 
+  const renderItem = ({ item }) => (
+    <View style={styles.itemContainer}>
+      <ProductItem
+        product={item}
+        onPress={() => handleProductPress(item)}
+        style={{ width: itemWidth }}
+      />
+    </View>
+  );
+
   if (loading) {
     return (
       <View style={styles.centerContainer}>
@@ -49,13 +63,10 @@ function HomeScreen({ navigation }) {
     <View style={styles.container}>
       <FlatList
         data={products}
-        renderItem={({ item }) => (
-          <ProductItem
-            product={item}
-            onPress={() => handleProductPress(item)}
-          />
-        )}
+        renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
+        numColumns={numColumns}
+        columnWrapperStyle={styles.row}
       />
     </View>
   );
@@ -75,6 +86,14 @@ const styles = StyleSheet.create({
     color: 'red',
     fontSize: 16,
     textAlign: 'center',
+  },
+  itemContainer: {
+    flex: 1,
+    margin: 5,
+  },
+  row: {
+    flex: 1,
+    justifyContent: 'space-between',
   },
 });
 
