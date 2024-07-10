@@ -8,15 +8,12 @@ function ProductDetailsScreen({ route }) {
     <ScrollView style={styles.container}>
       <Image source={{ uri: product.image }} style={styles.image} />
       <View style={styles.infoContainer}>
-        <Text style={styles.name}>{product.name}</Text>
-        <Text style={styles.price}>${product.price.toFixed(2)}</Text>
+        <Text style={styles.name}>{product.title}</Text>
+        
         <Text style={styles.description}>{product.description}</Text>
-        <Text style={styles.sectionTitle}>Material</Text>
-        <Text>{product.material}</Text>
-        <Text style={styles.sectionTitle}>Precautions</Text>
-        <Text>{product.precautions}</Text>
-        <Text style={styles.sectionTitle}>Shipping Information</Text>
-        <Text>{product.shippingInfo}</Text>
+        <Text style={styles.price}>${product.price.toFixed(2)}</Text>
+        <Image source={require('./1.png')} style={styles.secSect}/>
+        <Image source={require('./2.png')} style={styles.lastSect}/>
       </View>
     </ScrollView>
   );
@@ -25,11 +22,27 @@ function ProductDetailsScreen({ route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 20,
+    backgroundColor: '#fff',
   },
+
   image: {
-    width: '100%',
-    height: 300,
+    width: 350,
+    height: 450,
+    marginTop: 5,
+    alignSelf: 'center',
+
+  },
+  lastSect: {
+    width: 400,
+    marginRight: 30,
+    marginTop: 60,
+    alignSelf: 'center',
+
+  },
+  secSect: {
+    width: 400,
+    marginLeft: 40,
+    alignSelf: 'center',
   },
   infoContainer: {
     padding: 20,
@@ -40,14 +53,16 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   price: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: 'bold',
-    color: '#888',
-    marginBottom: 10,
+    color: '#dd8560',
+    marginBottom: 20,
   },
   description: {
+    color: 'grey',
     fontSize: 16,
     marginBottom: 20,
+    fontWeight: 'light',
   },
   sectionTitle: {
     fontSize: 18,
