@@ -30,7 +30,7 @@ function CartScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 20, alignSelf: 'center', textDecorationLine: 'underline', textDecorationColor: 'grey'}}>Checkout</Text>
+      <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 20, alignSelf: 'center', textDecorationLine: 'underline', textDecorationColor: 'grey'}}>CHECKOUT</Text>
       <FlatList
         data={cart}
         renderItem={({ item }) => (
@@ -46,12 +46,17 @@ function CartScreen() {
       />
       {cart.length > 0 && (
         <View style={styles.totalContainer}>
-          <Text style={styles.totalText}>Total: ${totalPrice.toFixed(2)}</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10}}>
+          <Text style={{ fontSize: 20, marginBottom: 10}}>EST. TOTAL: </Text>
+          <Text style={styles.totalText}>${totalPrice.toFixed(2)}</Text>
+          </View>
+          
           <TouchableOpacity style={styles.checkoutButton}>
+            <View style={{ flexDirection: 'row', alignSelf: 'center', marginLeft: 90}}>
+            <Ionicons name="bag-handle-outline" size={24} color="white" />
             <Text style={styles.checkoutButtonText}>Checkout</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.clearButton} onPress={clearCart}>
-            <Text style={styles.clearButtonText}>Clear Cart</Text>
+            </View>
+            
           </TouchableOpacity>
         </View>
       )}
@@ -109,6 +114,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 5,
     marginTop: 10,
+    color: '#dd8560',
   },
 
   emptyCart: {
@@ -124,7 +130,7 @@ const styles = StyleSheet.create({
   },
   totalContainer: {
     backgroundColor: 'white',
-    padding: 20,
+    paddingTop: 20,
     borderTopWidth: 1,
     borderTopColor: '#eee',
   },
@@ -132,30 +138,21 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 15,
+    color: '#dd8560',
   },
   checkoutButton: {
-    backgroundColor: '#4CAF50',
-    padding: 15,
-    borderRadius: 8,
+    backgroundColor: 'black',
+    padding: 20,
+    flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
   },
   checkoutButtonText: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 18,
+    marginLeft: 10,
   },
-  clearButton: {
-    backgroundColor: '#f44336',
-    padding: 15,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  clearButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
+
 });
 
 export default CartScreen;
