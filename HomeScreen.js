@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, StyleSheet, ActivityIndicator, Text, Dimensions } from 'react-native';
+import { View, FlatList, StyleSheet, ActivityIndicator, Text, Dimensions, ScrollView } from 'react-native';
 import ProductItem from './ProductItem';
 import { fetchProducts } from './productApi';
+import { Ionicons } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');
 const numColumns = 2;
@@ -61,6 +62,15 @@ function HomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <ScrollView>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+      <Text style={styles.ourStory}>Our Story</Text>
+      <View style={{ flexDirection: 'row'}}>
+      <Ionicons name="list-outline" size={27} color="grey" />
+      <Ionicons name="filter-outline" size={27} color="grey" style={{marginLeft: 10}}/>
+      </View>
+      </View>
+      
       <FlatList
         data={products}
         renderItem={renderItem}
@@ -68,6 +78,8 @@ function HomeScreen({ navigation }) {
         numColumns={numColumns}
         columnWrapperStyle={styles.row}
       />
+      </ScrollView>
+      
     </View>
   );
 }
@@ -76,6 +88,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+    backgroundColor: '#fff',
   },
   centerContainer: {
     flex: 1,
@@ -94,6 +107,11 @@ const styles = StyleSheet.create({
   row: {
     flex: 1,
     justifyContent: 'space-between',
+  },
+  ourStory: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
 });
 

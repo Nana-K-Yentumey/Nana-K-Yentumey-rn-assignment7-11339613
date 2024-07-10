@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 120,
+    height: 220,
     resizeMode: 'cover',
   },
   infoContainer: {
@@ -62,15 +62,15 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   price: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold',
-    color: '#2a9d8f',
+    color: '#dd8560',
   },
   addToCartButton: {
     position: 'absolute',
     bottom: 10,
     right: 10,
-    backgroundColor: '#2a9d8f',
+    backgroundColor: '#dd8560',
     borderRadius: 20,
     padding: 5,
   },
