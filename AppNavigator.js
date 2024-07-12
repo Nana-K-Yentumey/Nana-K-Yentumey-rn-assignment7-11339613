@@ -1,7 +1,10 @@
+//AppNavigator.js
+
 import React from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
 
 import HomeScreen from './HomeScreen';
@@ -10,6 +13,7 @@ import CartScreen from './CartScreen';
 import { useCart } from './CartContext';
 
 const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
 function CartIcon({ navigation }) {
   const { cart } = useCart();
@@ -39,18 +43,44 @@ function CartIcon({ navigation }) {
   );
 }
 
+function ProductStack({ navigation }) {
+  return (
+    <Stack.Navigator
+      screenOptions={({ navigation }) => ({
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => navigation.openDrawer()} style={{ marginLeft: 15 }}>
+            <Ionicons name="menu-outline" size={24} color="black" />
+          </TouchableOpacity>
+        ),
+        headerRight: () => <CartIcon navigation={navigation} />,
+      })}
+    >
+      <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Products' }} />
+      <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} options={{ title: 'Product Details' }} />
+    </Stack.Navigator>
+  );
+}
+
 function AppNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={({ navigation }) => ({
-          headerRight: () => <CartIcon navigation={navigation} />,
-        })}
-      >
-        <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Products' }} />
-        <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} options={{ title: 'Product Details' }} />
-        <Stack.Screen name="Cart" component={CartScreen} />
-      </Stack.Navigator>
+      <Drawer.Navigator initialRouteName="Products">
+        <Drawer.Screen 
+          name="Products" 
+          component={ProductStack}
+          options={{
+            headerShown: false,
+            title: 'Products',
+          }}
+        />
+        <Drawer.Screen 
+          name="Cart" 
+          component={CartScreen}
+          options={{
+            headerRight: (props) => <CartIcon {...props} />,
+          }}
+        />
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 }
