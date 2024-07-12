@@ -1,10 +1,10 @@
 //AppNavigator.js
 
 import React from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
+import { TouchableOpacity, View, Text, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
 
 import HomeScreen from './HomeScreen';
@@ -53,24 +53,50 @@ function ProductStack({ navigation }) {
           </TouchableOpacity>
         ),
         headerRight: () => <CartIcon navigation={navigation} />,
+        headerTitle: () => <CustomHeader />,
+        headerTitleAlign: 'center',
       })}
     >
-      <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Products' }} />
-      <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} options={{ title: 'Product Details' }} />
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
     </Stack.Navigator>
+  );
+}
+
+function CustomDrawerContent(props) {
+  return (
+    <DrawerContentScrollView {...props}>
+      <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#ccc' }}>
+        <Text style={{ fontSize: 25, marginLeft: 10 }}>Eric Atsu</Text>
+      </View>
+      <DrawerItemList {...props} />
+    </DrawerContentScrollView>
+  );
+}
+
+function CustomHeader() {
+  return (
+    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 60 }}>
+      <Image
+        source={require('./logo.png')}
+        style={{ width: 120, height: 50, resizeMode: 'contain' }}
+      />
+    </View>
   );
 }
 
 function AppNavigator() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Products">
+      <Drawer.Navigator 
+        initialRouteName="Products"
+        drawerContent={(props) => <CustomDrawerContent {...props} />}
+      >
         <Drawer.Screen 
           name="Products" 
           component={ProductStack}
           options={{
             headerShown: false,
-            title: 'Products',
           }}
         />
         <Drawer.Screen 
@@ -78,6 +104,8 @@ function AppNavigator() {
           component={CartScreen}
           options={{
             headerRight: (props) => <CartIcon {...props} />,
+            headerTitle: () => <CustomHeader />,
+            headerTitleAlign: 'center',
           }}
         />
       </Drawer.Navigator>
